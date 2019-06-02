@@ -12,7 +12,5 @@ class Main
      */
     public function __construct()
     {
-        echo "Main class";
-        $parse = new \PuzzleParser("..\\puzzles\\basic.puzzle");
     }
 }
