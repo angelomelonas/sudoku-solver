@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace AngeloMelonas\SudokuSolver;
 
-final class Main
+class Main
 {
 
     /**
@@ -13,5 +13,6 @@ final class Main
     public function __construct()
     {
         echo "Main class";
+        $parse = new \PuzzleParser("..\\puzzles\\basic.puzzle");
     }
 }

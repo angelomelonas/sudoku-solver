@@ -24,12 +24,12 @@
   },
   "autoload": {
     "psr-4": {
-      "src\\": "src/"
+      "AngeloMelonas\\SudokuSolver\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "tests\\": "tests/"
+      "AngeloMelonas\\SudokuSolverTest\\": "tests/"
     }
   },
   "minimum-stability": "stable",
