@@ -4,16 +4,20 @@ declare(strict_types=1);
 
 namespace AngeloMelonas\SudokuSolver;
 
+use Exception;
+
 /**
  * Class PuzzleParser
  *
  * Returns an array of one or more m by n puzzles read from a given file.
  */
-class PuzzleParser {
+class PuzzleParser
+{
 
     private $puzzles;
 
-    public function __construct($puzzleFilePath = "") {
+    public function __construct($puzzleFilePath = "")
+    {
         $this->puzzles = array();
 
         if ($puzzleFilePath != "") {
@@ -22,20 +26,21 @@ class PuzzleParser {
         }
     }
 
-    public function readFileContents(string $puzzleFilePath) {
+    public function readFileContents(string $puzzleFilePath)
+    {
         // Read and return the entire file contents.
         $fileContents = file_get_contents($puzzleFilePath);
 
         if (!$fileContents) {
             // Something went wrong reading the file.
-            error_log("Failed to read the following file: " . $puzzleFilePath);
-            exit();
+            throw new Exception("Failed to read the following file: " . $puzzleFilePath);
         }
 
         return $fileContents;
     }
 
-    public function parseFileContents(string $fileContents) {
+    public function parseFileContents(string $fileContents)
+    {
         // Explode the file contents string by each line.
         $lines = explode("\n", $fileContents);
 
@@ -58,8 +63,7 @@ class PuzzleParser {
                 $sanitized_row = array_map("intval", array_filter($row, "is_numeric"));
 
                 if (empty($sanitized_row)) {
-                    error_log("Line " . $lineCount . " in puzzle or file is not a valid row.");
-                    exit();
+                    throw new Exception("Line " . $lineCount . " in puzzle or file is not a valid row.");
                 } else {
                     // Add the array to the puzzle.
                     array_push($tempPuzzle, $sanitized_row);
@@ -78,40 +82,42 @@ class PuzzleParser {
         }
     }
 
-    private function addPuzzle(array $puzzle) {
+    private function addPuzzle(array $puzzle)
+    {
         // First validate the puzzle.
         $this->validatePuzzle($puzzle);
         // If the puzzle is valid, add it to the list of puzzles.
         array_push($this->puzzles, $puzzle);
     }
 
-    private function validatePuzzle(array $puzzle) {
+    private function validatePuzzle(array $puzzle)
+    {
         $cellCount = 0;
 
         foreach ($puzzle as $row) {
             foreach ($row as $cell) {
-                if($cell < 0){
-                    error_log("The puzzle can only contain positive numbers.");
-                    exit();
+                if ($cell < 0) {
+                    throw new Exception("The puzzle can only contain positive numbers.");
                 }
                 $cellCount++;
             }
         }
         // Ensure the puzzle is square.
         if (sqrt($cellCount) != count($puzzle[0])) {
-            error_log("The puzzle dimensions have to be square.");
-            exit();
+            throw new Exception("The puzzle dimensions have to be square.");
         }
     }
 
     /**
      * @return mixed
      */
-    public function getAllPuzzles(): array {
+    public function getAllPuzzles(): array
+    {
         return $this->puzzles;
     }
 
-    public function toString(array $puzzle) {
+    public function toString(array $puzzle)
+    {
         echo "\n";
         foreach ($puzzle as $row) {
             foreach ($row as $cell) {
