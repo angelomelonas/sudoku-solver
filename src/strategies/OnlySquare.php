@@ -1,8 +1,10 @@
 <?php
 
-class OnlySquare implements Strategy {
+class OnlySquare implements Strategy
+{
 
-    public function applyStrategy(array $puzzle): array {
+    public function applyStrategy(array $puzzle): array
+    {
         // TODO: Implement applyStrategy() method.
     }
 }

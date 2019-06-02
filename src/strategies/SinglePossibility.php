@@ -1,8 +1,10 @@
 <?php
 
-class SinglePossibility implements Strategy{
+class SinglePossibility implements Strategy
+{
 
-    public function applyStrategy(array $puzzle): array {
+    public function applyStrategy(array $puzzle): array
+    {
         // TODO: Implement applyStrategy() method.
     }
 }

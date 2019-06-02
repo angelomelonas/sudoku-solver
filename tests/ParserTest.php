@@ -10,12 +10,6 @@ use PHPUnit\Framework\TestCase;
 
 class ParserTest extends TestCase
 {
-
-    public function tearDown()
-    {
-        parent::tearDown();
-    }
-
     /**
      * @test
      */
