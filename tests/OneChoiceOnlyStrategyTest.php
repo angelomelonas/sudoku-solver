@@ -182,6 +182,52 @@ class OneChoiceOnlyStrategyTest extends TestCase {
         $this->assertStrategyOutput($strategyInput, $strategyExpectedOutput);
     }
 
+    /**
+     * @test
+     */
+    public function singleEmptyCellsTest(): void {
+        $strategyInput = array(
+            array(0, 3, 9, 1, 4, 8, 2, 5, 7),
+            array(1, 5, 8, 2, 7, 9, 4, 6, 3),
+            array(2, 7, 4, 5, 6, 3, 8, 9, 1),
+            array(7, 1, 6, 4, 2, 5, 3, 8, 9),
+            array(3, 4, 5, 9, 8, 7, 1, 2, 6),
+            array(9, 8, 2, 6, 3, 1, 5, 7, 4),
+            array(8, 6, 1, 3, 9, 2, 7, 4, 5),
+            array(5, 9, 7, 8, 1, 4, 6, 3, 2),
+            array(4, 2, 3, 7, 5, 6, 9, 1, 8));
+
+        $strategyExpectedOutput = array(
+            array(6, 3, 9, 1, 4, 8, 2, 5, 7),
+            array(1, 5, 8, 2, 7, 9, 4, 6, 3),
+            array(2, 7, 4, 5, 6, 3, 8, 9, 1),
+            array(7, 1, 6, 4, 2, 5, 3, 8, 9),
+            array(3, 4, 5, 9, 8, 7, 1, 2, 6),
+            array(9, 8, 2, 6, 3, 1, 5, 7, 4),
+            array(8, 6, 1, 3, 9, 2, 7, 4, 5),
+            array(5, 9, 7, 8, 1, 4, 6, 3, 2),
+            array(4, 2, 3, 7, 5, 6, 9, 1, 8));
+
+        $this->assertStrategyOutput($strategyInput, $strategyExpectedOutput);
+    }
+
+    /**
+     * @test
+     */
+    public function noEmptyCellsTest(): void {
+        $solvedStrategy = array(
+            array(6, 3, 9, 1, 4, 8, 2, 5, 7),
+            array(1, 5, 8, 2, 7, 9, 4, 6, 3),
+            array(2, 7, 4, 5, 6, 3, 8, 9, 1),
+            array(7, 1, 6, 4, 2, 5, 3, 8, 9),
+            array(3, 4, 5, 9, 8, 7, 1, 2, 6),
+            array(9, 8, 2, 6, 3, 1, 5, 7, 4),
+            array(8, 6, 1, 3, 9, 2, 7, 4, 5),
+            array(5, 9, 7, 8, 1, 4, 6, 3, 2),
+            array(4, 2, 3, 7, 5, 6, 9, 1, 8));
+
+        $this->assertStrategyOutput($solvedStrategy, $solvedStrategy);
+    }
 
     private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput) {
         $M = count($strategyInput[0]);
