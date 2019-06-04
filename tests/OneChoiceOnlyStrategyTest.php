@@ -7,11 +7,13 @@ namespace AngeloMelonas\SudokuSolverTest;
 use AngeloMelonas\SudokuSolver\Strategies\OneChoiceOnly;
 use PHPUnit\Framework\TestCase;
 
-class OneChoiceOnlyStrategyTest extends TestCase {
+class OneChoiceOnlyStrategyTest extends TestCase
+{
     /**
      * @test
      */
-    public function singleRowTest(): void {
+    public function singleRowTest(): void
+    {
         $strategyInput = array(
             array(0, 3, 9, 1, 4, 8, 2, 5, 7),
             array(1, 0, 8, 0, 0, 0, 0, 6, 3),
@@ -40,7 +42,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function multipleRowTest(): void {
+    public function multipleRowTest(): void
+    {
         $strategyInput = array(
             array(0, 3, 9, 1, 4, 8, 2, 5, 7),
             array(1, 5, 8, 2, 7, 9, 0, 6, 3),
@@ -69,7 +72,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function singleColumnTest(): void {
+    public function singleColumnTest(): void
+    {
         $strategyInput = array(
             array(0, 3, 9, 1, 4, 8, 2, 5, 7),
             array(1, 0, 8, 0, 7, 0, 0, 6, 3),
@@ -98,7 +102,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function multipleColumnTest(): void {
+    public function multipleColumnTest(): void
+    {
         $strategyInput = array(
             array(6, 3, 9, 1, 4, 8, 2, 5, 7),
             array(1, 0, 8, 0, 7, 0, 0, 6, 3),
@@ -127,7 +132,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function singleRegionTest(): void {
+    public function singleRegionTest(): void
+    {
         $strategyInput = array(
             array(6, 3, 9, 0, 0, 8, 2, 5, 7),
             array(1, 0, 8, 0, 0, 9, 4, 6, 3),
@@ -156,7 +162,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function multipleRegionTest(): void {
+    public function multipleRegionTest(): void
+    {
         $strategyInput = array(
             array(6, 3, 9, 0, 0, 8, 2, 5, 7),
             array(1, 0, 8, 0, 0, 9, 4, 6, 3),
@@ -185,7 +192,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function singleEmptyCellsTest(): void {
+    public function singleEmptyCellsTest(): void
+    {
         $strategyInput = array(
             array(0, 3, 9, 1, 4, 8, 2, 5, 7),
             array(1, 5, 8, 2, 7, 9, 4, 6, 3),
@@ -214,7 +222,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
     /**
      * @test
      */
-    public function noEmptyCellsTest(): void {
+    public function noEmptyCellsTest(): void
+    {
         $solvedStrategy = array(
             array(6, 3, 9, 1, 4, 8, 2, 5, 7),
             array(1, 5, 8, 2, 7, 9, 4, 6, 3),
@@ -229,7 +238,8 @@ class OneChoiceOnlyStrategyTest extends TestCase {
         $this->assertStrategyOutput($solvedStrategy, $solvedStrategy);
     }
 
-    private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput) {
+    private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput)
+    {
         $M = count($strategyInput[0]);
         $oneChoiceOnlyStrategy = new OneChoiceOnly($M);
         $puzzlePostStrategy = $oneChoiceOnlyStrategy->applyStrategy($strategyInput);
