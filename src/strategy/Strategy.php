@@ -34,5 +34,5 @@ abstract class Strategy
     /**
      * @return Puzzle
      */
-    abstract protected function applyStrategy();
+    abstract public function applyStrategy();
 }
