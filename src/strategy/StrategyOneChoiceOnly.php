@@ -2,92 +2,61 @@
 
 namespace sudoku\solver\strategy;
 
+use sudoku\solver\common\object\Puzzle;
+
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
  * @since 20200201 Initial creation.
  */
-class StrategyOneChoiceOnly implements Strategy
+class StrategyOneChoiceOnly extends Strategy
 {
-
-    private $M;
-    private $allPossibleGroupNumbers;
-    private $currentPuzzle;
-
     /**
-     * OneChoiceOnly constructor.
-     * @param int $M
+     * StrategyOneChoiceOnly constructor.
+     *
+     * @param Puzzle $puzzle
      */
-    public function __construct(int $M)
+    public function __construct(Puzzle $puzzle)
     {
-        $this->M = $M;
-        // Generate all possible numbers in a group.
-        $this->allPossibleGroupNumbers = range(1, $M);
+        parent::__construct($puzzle);
     }
 
-    public function applyStrategy(array $puzzle): array
+    /**
+     * @return Puzzle
+     */
+    public function applyStrategy(): Puzzle
     {
-        $this->currentPuzzle = $puzzle;
-
-        for ($i = 0; $i < $this->M; $i++) {
-            for ($j = 0; $j < $this->M; $j++) {
-                // For each cell, look in each row, column and region for a single answer.
-                $this->scanRow($this->currentPuzzle[$i], $i, $j);
-                $this->scanColumn(array_column($this->currentPuzzle, $j), $i, $j);
-                $this->scanRegion($this->getRegion($this->currentPuzzle, $i, $j), $i, $j);
+        for ($row = 0; $row < $this->puzzle->getLength(); $row++) {
+            for ($column = 0; $column < $this->puzzle->getLength(); $column++) {
+                if ($this->puzzle->getSquareValue($row, $column) === self::UNSOLVED_SQUARE_VALUE) {
+                    $this->solveGroup($this->puzzle->getRow($row), $row, $column);
+                    $this->solveGroup($this->puzzle->getColumn($column), $row, $column);
+                    $this->solveGroup($this->puzzle->getRegion($row, $column), $row, $column);
+                } else {
+                    // The square has been solved already.
+                }
             }
         }
 
-        return $this->currentPuzzle;
+        return $this->puzzle;
     }
 
-    private function scanRow(array $row, int $i, int $j)
-    {
-        if ($this->currentPuzzle[$i][$j] === 0) {
-            $this->solveGroup($row, $i, $j);
-        }
-    }
-
-    private function scanColumn(array $column, int $i, int $j)
-    {
-        if ($this->currentPuzzle[$i][$j] === 0) {
-            $this->solveGroup($column, $i, $j);
-        }
-    }
-
-    private function scanRegion(array $region, int $i, int $j)
-    {
-        if ($this->currentPuzzle[$i][$j] === 0) {
-            $this->solveGroup($region, $i, $j);
-        }
-    }
-
-    private function solveGroup(array $group, int $i, int $j)
+    /**
+     * @param array $group
+     * @param int $row
+     * @param int $column
+     */
+    private function solveGroup(array $group, int $row, int $column)
     {
         // Count the number of empty cells in the group.
         $counts = array_count_values($group);
 
         // Check if the group is eligible for the strategy, e.g., there is only 1 zero.
-        if ($counts[0] == 1) {
+        if (isset($counts[0]) && $counts[0] === 1) {
             // Find the missing number.
-            $solution = array_diff($this->allPossibleGroupNumbers, $group);
-            $this->currentPuzzle[$i][$j] = reset($solution);
+            $solution = array_diff($this->puzzle->getAllGroupNumber(), $group);
+            $this->puzzle->setSquareValue($row, $column, reset($solution));
+        } else {
+            // The group is not eligble for the strategy.
         }
-    }
-
-    private function getRegion(array $puzzle, $i, $j): array
-    {
-        // Calculate the region bounds.
-        $r = $i - $i % sqrt($this->M);
-        $c = $j - $j % sqrt($this->M);
-
-        $region = array();
-
-        for ($i = $r; $i < $r + sqrt($this->M); $i++) {
-            for ($j = $c; $j < $c + sqrt($this->M); $j++) {
-                array_push($region, $puzzle[$i][$j]);
-            }
-        }
-
-        return $region;
     }
 }

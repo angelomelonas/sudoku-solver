@@ -2,17 +2,37 @@
 
 namespace sudoku\solver\strategy;
 
+use sudoku\solver\common\object\Puzzle;
+
 /**
  * Interface Strategy
  *
  * @package sudoku\solver\strategy
  */
-interface Strategy
+abstract class Strategy
 {
     /**
-     * @param array $puzzle
-     *
-     * @return array
+     * Strategy constants.
      */
-    public function applyStrategy(array $puzzle): array;
+    const UNSOLVED_SQUARE_VALUE = 0;
+
+    /**
+     * @var Puzzle
+     */
+    protected $puzzle;
+
+    /**
+     * Strategy constructor.
+     *
+     * @param Puzzle $puzzle
+     */
+    public function __construct(Puzzle $puzzle)
+    {
+        $this->puzzle = $puzzle;
+    }
+
+    /**
+     * @return Puzzle
+     */
+    abstract protected function applyStrategy();
 }

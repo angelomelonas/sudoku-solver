@@ -3,18 +3,18 @@
 namespace sudoku\solver\test;
 
 use PHPUnit\Framework\TestCase;
+use sudoku\solver\common\object\Puzzle;
 use sudoku\solver\strategy\StrategyOneChoiceOnly;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
  * @since 20200201 Initial creation.
  */
-class OneChoiceOnlyStrategyTest extends TestCase
+class StrategyOneChoiceOnlyTest extends TestCase
 {
     /**
-     * @test
      */
-    public function singleRowTest(): void
+    public function singleRowTest()
     {
         $strategyInput = array(
             array(0, 3, 9, 1, 4, 8, 2, 5, 7),
@@ -222,9 +222,8 @@ class OneChoiceOnlyStrategyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function noEmptyCellsTest(): void
+    public function testNoEmptyCells(): void
     {
         $solvedStrategy = array(
             array(6, 3, 9, 1, 4, 8, 2, 5, 7),
@@ -240,11 +239,16 @@ class OneChoiceOnlyStrategyTest extends TestCase
         $this->assertStrategyOutput($solvedStrategy, $solvedStrategy);
     }
 
+    /**
+     * @param array $strategyInput
+     * @param array $strategyExpectedOutput
+     */
     private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput)
     {
-        $M = count($strategyInput[0]);
-        $oneChoiceOnlyStrategy = new StrategyOneChoiceOnly($M);
-        $puzzlePostStrategy = $oneChoiceOnlyStrategy->applyStrategy($strategyInput);
-        $this->assertEquals($strategyExpectedOutput, $puzzlePostStrategy);
+        $puzzle = new Puzzle($strategyInput);
+        $oneChoiceOnlyStrategy = new StrategyOneChoiceOnly($puzzle);
+        $solvedPuzzle = $oneChoiceOnlyStrategy->applyStrategy();
+
+        static::assertEquals($strategyExpectedOutput, $solvedPuzzle->getPuzzleArray());
     }
 }
