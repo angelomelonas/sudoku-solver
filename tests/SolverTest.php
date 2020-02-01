@@ -1,13 +1,14 @@
 <?php
 
-declare(strict_types=1);
-
-namespace AngeloMelonas\SudokuSolverTest;
-
-use AngeloMelonas\SudokuSolver\Solver;
+namespace sudoku\solver\test;
 
 use PHPUnit\Framework\TestCase;
+use sudoku\solver\solver\Solver;
 
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
 class SolverTest extends TestCase
 {
     /**

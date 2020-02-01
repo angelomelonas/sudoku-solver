@@ -1,10 +1,8 @@
 <?php
 
-declare(strict_types=1);
+namespace sudoku\solver\solver;
 
-namespace AngeloMelonas\SudokuSolver;
-
-use AngeloMelonas\SudokuSolver\Strategies\OneChoiceOnly;
+use sudoku\solver\strategy\OneChoiceOnly;
 
 class Solver
 {

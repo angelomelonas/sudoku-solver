@@ -1,17 +1,34 @@
 <?php
 
-declare(strict_types=1);
+namespace sudoku\solver\test;
 
-namespace AngeloMelonas\SudokuSolverTest;
-
-use AngeloMelonas\SudokuSolver\PuzzleParser;
+use sudoku\solver\common\exception\SudokuSolverException;
+use sudoku\solver\parser\exception\SudokuSolverExceptionParser;
+use sudoku\solver\parser\PuzzleParser;
 use Exception;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
 class ParserTest extends TestCase
 {
     /**
+     * Puzzle filepath constants.
+     */
+    const PATH_BASIC_PUZZLE = '/puzzles/very_easy_1.puzzle';
+
+    /**
+     * Exception constants.
+     */
+    const ERROR_PUZZLE_DIMENSIONS_INVALID = 'The puzzle dimensions have to be square.';
+    const ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS = '"%s" is an invalid cell value. The puzzle can only contain positive numbers.';
+    const ERROR_PUZZLE_ROW_INVALID = 'Line %s in puzzle or file is not a valid row.';
+
+    /**
      * @test
+     * @throws Exception
      */
     public function parserTest(): void
     {
@@ -26,60 +43,49 @@ class ParserTest extends TestCase
             0, 0, 9, 5, 8, 1, 4, 7, 0
             0, 7, 0, 2, 0, 9, 1, 6, 0";
 
-        $parserExpectedOutput = array(
-            array(0, 0, 0, 1, 9, 0, 5, 8, 2),
-            array(5, 0, 8, 0, 2, 7, 0, 0, 9),
-            array(2, 9, 4, 8, 0, 0, 7, 0, 0),
-            array(0, 0, 6, 3, 7, 0, 0, 9, 4),
-            array(4, 3, 0, 0, 6, 2, 0, 5, 0),
-            array(9, 8, 0, 4, 0, 5, 6, 0, 0),
-            array(8, 0, 1, 0, 0, 0, 0, 2, 5),
-            array(0, 0, 9, 5, 8, 1, 4, 7, 0),
-            array(0, 7, 0, 2, 0, 9, 1, 6, 0)
-        );
+        $parserExpectedOutput = [
+            [0, 0, 0, 1, 9, 0, 5, 8, 2],
+            [5, 0, 8, 0, 2, 7, 0, 0, 9],
+            [2, 9, 4, 8, 0, 0, 7, 0, 0],
+            [0, 0, 6, 3, 7, 0, 0, 9, 4],
+            [4, 3, 0, 0, 6, 2, 0, 5, 0],
+            [9, 8, 0, 4, 0, 5, 6, 0, 0],
+            [8, 0, 1, 0, 0, 0, 0, 2, 5],
+            [0, 0, 9, 5, 8, 1, 4, 7, 0],
+            [0, 7, 0, 2, 0, 9, 1, 6, 0]
+        ];
 
-        $parser = new PuzzleParser();
+        $puzzle = PuzzleParser::parsePuzzleFromString($parserInput);
 
-        $parser->parseFileContents($parserInput);
-
-        $this->assertEquals($parserExpectedOutput, $parser->getAllPuzzles()[0]);
+        static::assertEquals($parserExpectedOutput, $puzzle->getPuzzleArrayInt());
     }
 
     /**
      * @test
+     * @throws SudokuSolverException
      */
     public function parserWithFileTest(): void
     {
-        $parserExpectedOutput1 = array(
-            array(0, 0, 0, 1, 9, 0, 5, 8, 2),
-            array(5, 0, 8, 0, 2, 7, 0, 0, 9),
-            array(2, 9, 4, 8, 0, 0, 7, 0, 0),
-            array(0, 0, 6, 3, 7, 0, 0, 9, 4),
-            array(4, 3, 0, 0, 6, 2, 0, 5, 0),
-            array(9, 8, 0, 4, 0, 5, 6, 0, 0),
-            array(8, 0, 1, 0, 0, 0, 0, 2, 5),
-            array(0, 0, 9, 5, 8, 1, 4, 7, 0),
-            array(0, 7, 0, 2, 0, 9, 1, 6, 0)
-        );
-        $parserExpectedOutput2 = array(
-            array(0, 0, 4, 0, 0, 0, 9, 7, 0),
-            array(7, 0, 0, 8, 5, 0, 6, 0, 1),
-            array(5, 1, 0, 0, 6, 0, 0, 2, 0),
-            array(0, 0, 0, 1, 0, 2, 0, 0, 0),
-            array(0, 0, 0, 0, 0, 5, 0, 0, 0),
-            array(0, 0, 0, 7, 0, 0, 0, 0, 0),
-            array(6, 0, 7, 0, 0, 0, 2, 0, 0),
-            array(4, 0, 0, 2, 0, 9, 0, 0, 8),
-            array(0, 0, 8, 4, 0, 0, 0, 9, 0));
+        $parserExpectedOutput = [
+            [0, 0, 0, 1, 9, 0, 5, 8, 2],
+            [5, 0, 8, 0, 2, 7, 0, 0, 9],
+            [2, 9, 4, 8, 0, 0, 7, 0, 0],
+            [0, 0, 6, 3, 7, 0, 0, 9, 4],
+            [4, 3, 0, 0, 6, 2, 0, 5, 0],
+            [9, 8, 0, 4, 0, 5, 6, 0, 0],
+            [8, 0, 1, 0, 0, 0, 0, 2, 5],
+            [0, 0, 9, 5, 8, 1, 4, 7, 0],
+            [0, 7, 0, 2, 0, 9, 1, 6, 0]
+        ];
 
-        $parser = new PuzzleParser("../puzzles/basic.puzzle");
+        $puzzle = PuzzleParser::parsePuzzleFromFile(self::PATH_BASIC_PUZZLE);
 
-        $this->assertEquals($parserExpectedOutput1, $parser->getAllPuzzles()[0]);
-        $this->assertEquals($parserExpectedOutput2, $parser->getAllPuzzles()[1]);
+        static::assertEquals($parserExpectedOutput, $puzzle->getPuzzleArrayInt());
     }
 
     /**
      * @test
+     * @throws SudokuSolverExceptionParser
      */
     public function parserIncorrectPuzzleDimensionsExceptionTest(): void
     {
@@ -95,14 +101,14 @@ class ParserTest extends TestCase
             0, 7, 0, 2, 0, 9, 1, 6, 0";
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("The puzzle dimensions have to be square.");
+        $this->expectExceptionMessage(self::ERROR_PUZZLE_DIMENSIONS_INVALID);
 
-        $parser = new PuzzleParser();
-        $parser->parseFileContents($parserInput);
+        PuzzleParser::parsePuzzleFromString($parserInput);
     }
 
     /**
      * @test
+     * @throws SudokuSolverExceptionParser
      */
     public function parserNegativeNumberExceptionTest(): void
     {
@@ -117,16 +123,19 @@ class ParserTest extends TestCase
             0, 0, 9, 5, 8, 1, 4, 7, 0
             0, 7, 0, 2, 0, 9, 1, 6, 0";
 
+        $negativeNumber = -2;
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("The puzzle can only contain positive numbers.");
+        $this->expectExceptionMessage(
+            vsprintf(self::ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS, [$negativeNumber])
+        );
 
-        $parser = new PuzzleParser();
-        $parser->parseFileContents($parserInput);
+        PuzzleParser::parsePuzzleFromString($parserInput);
     }
 
     /**
      * @test
+     * @throws SudokuSolverExceptionParser
      */
     public function parserInvalidRowExceptionTest(): void
     {
@@ -144,9 +153,8 @@ class ParserTest extends TestCase
         $lineCount = 5;
 
         $this->expectException(Exception::class);
-        $this->expectExceptionMessage("Line " . $lineCount . " in puzzle or file is not a valid row.");
+        $this->expectExceptionMessage(vsprintf(self::ERROR_PUZZLE_ROW_INVALID, [$lineCount]));
 
-        $parser = new PuzzleParser();
-        $parser->parseFileContents($parserInput);
+        PuzzleParser::parsePuzzleFromString($parserInput);
     }
 }
