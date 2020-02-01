@@ -23,6 +23,11 @@ class Puzzle
     private $allGroupNumber;
 
     /**
+     * @var int
+     */
+    private $solutionValue;
+
+    /**
      * Puzzle constructor.
      *
      * @param int[][] $puzzle
@@ -32,6 +37,7 @@ class Puzzle
         $this->puzzle = $puzzle;
         $this->length = count($puzzle[0]);
         $this->allGroupNumber = range(1, $this->length);
+        $this->solutionValue = (((1 + $this->length) / 2) * $this->length) * $this->length;
     }
 
     /**
@@ -119,6 +125,28 @@ class Puzzle
     public function getAllGroupNumber(): array
     {
         return $this->allGroupNumber;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSolutionValue(): int
+    {
+        return $this->solutionValue;
+    }
+
+    /**
+     * @return bool
+     */
+    public function determineSolved()
+    {
+        $sum = 0;
+
+        foreach ($this->puzzle as $row) {
+            $sum += array_sum($row);
+        }
+
+        return $sum === $this->solutionValue;
     }
 
     /**
