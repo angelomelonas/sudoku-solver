@@ -2,7 +2,11 @@
 
 namespace sudoku\solver\strategy;
 
-class OnlySquare implements Strategy
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
+class StrategyTwoOutOfThree implements Strategy
 {
 
     public function applyStrategy(array $puzzle): array

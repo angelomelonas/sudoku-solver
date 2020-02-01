@@ -2,7 +2,11 @@
 
 namespace sudoku\solver\strategy;
 
-class SinglePossibility implements Strategy
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
+class StrategyOnlySquare implements Strategy
 {
 
     public function applyStrategy(array $puzzle): array

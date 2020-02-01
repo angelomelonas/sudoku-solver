@@ -2,8 +2,12 @@
 
 namespace sudoku\solver\solver;
 
-use sudoku\solver\strategy\OneChoiceOnly;
+use sudoku\solver\strategy\StrategyOneChoiceOnly;
 
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
 class Solver
 {
 
@@ -22,7 +26,7 @@ class Solver
 
     public function solve()
     {
-        $oneChoiceOnlyStrategy = new OneChoiceOnly($this->M);
+        $oneChoiceOnlyStrategy = new StrategyOneChoiceOnly($this->M);
 
         $count = 0;
         // TODO: This is an arbitrary number to avoid infinite looping.
@@ -47,7 +51,7 @@ class Solver
         return $this->puzzle;
     }
 
-    public function applyStrategy(OneChoiceOnly $strategy, array $puzzle): array
+    public function applyStrategy(StrategyOneChoiceOnly $strategy, array $puzzle): array
     {
         return $strategy->applyStrategy($puzzle);
     }

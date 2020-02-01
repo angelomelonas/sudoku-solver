@@ -2,7 +2,11 @@
 
 namespace sudoku\solver\strategy;
 
-class TwoOutOfThree implements Strategy
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
+class StrategySinglePossibility implements Strategy
 {
 
     public function applyStrategy(array $puzzle): array

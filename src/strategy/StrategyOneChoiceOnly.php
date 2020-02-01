@@ -2,7 +2,11 @@
 
 namespace sudoku\solver\strategy;
 
-class OneChoiceOnly implements Strategy
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
+class StrategyOneChoiceOnly implements Strategy
 {
 
     private $M;

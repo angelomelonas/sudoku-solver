@@ -3,7 +3,7 @@
 namespace sudoku\solver\test;
 
 use PHPUnit\Framework\TestCase;
-use sudoku\solver\strategy\OneChoiceOnly;
+use sudoku\solver\strategy\StrategyOneChoiceOnly;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
@@ -243,7 +243,7 @@ class OneChoiceOnlyStrategyTest extends TestCase
     private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput)
     {
         $M = count($strategyInput[0]);
-        $oneChoiceOnlyStrategy = new OneChoiceOnly($M);
+        $oneChoiceOnlyStrategy = new StrategyOneChoiceOnly($M);
         $puzzlePostStrategy = $oneChoiceOnlyStrategy->applyStrategy($strategyInput);
         $this->assertEquals($strategyExpectedOutput, $puzzlePostStrategy);
     }
