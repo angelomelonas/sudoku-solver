@@ -57,7 +57,7 @@ class ParserTest extends TestCase
 
         $puzzle = PuzzleParser::parsePuzzleFromString($parserInput);
 
-        static::assertEquals($parserExpectedOutput, $puzzle->getPuzzleArrayInt());
+        static::assertEquals($parserExpectedOutput, $puzzle->getPuzzleArray());
     }
 
     /**
@@ -80,7 +80,7 @@ class ParserTest extends TestCase
 
         $puzzle = PuzzleParser::parsePuzzleFromFile(self::PATH_BASIC_PUZZLE);
 
-        static::assertEquals($parserExpectedOutput, $puzzle->getPuzzleArrayInt());
+        static::assertEquals($parserExpectedOutput, $puzzle->getPuzzleArray());
     }
 
     /**
