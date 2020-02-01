@@ -1,6 +1,8 @@
 <?php
 
-class OnlySquare implements Strategy
+namespace sudoku\solver\strategy;
+
+class SubGroupExclusion implements Strategy
 {
 
     public function applyStrategy(array $puzzle): array

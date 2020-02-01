@@ -1,12 +1,14 @@
 <?php
 
-declare(strict_types=1);
+namespace sudoku\solver\test;
 
-namespace AngeloMelonas\SudokuSolverTest;
-
-use AngeloMelonas\SudokuSolver\Strategies\OneChoiceOnly;
 use PHPUnit\Framework\TestCase;
+use sudoku\solver\strategy\OneChoiceOnly;
 
+/**
+ * @author Angelo Melonas <angelomelonas@gmail.com>
+ * @since 20200201 Initial creation.
+ */
 class OneChoiceOnlyStrategyTest extends TestCase
 {
     /**

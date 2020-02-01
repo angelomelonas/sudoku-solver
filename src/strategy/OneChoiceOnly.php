@@ -1,8 +1,6 @@
 <?php
 
-declare(strict_types=1);
-
-namespace AngeloMelonas\SudokuSolver\Strategies;
+namespace sudoku\solver\strategy;
 
 class OneChoiceOnly implements Strategy
 {

@@ -1,6 +1,8 @@
 <?php
 
-class TwoOutOfThree implements Strategy
+namespace sudoku\solver\strategy;
+
+class SinglePossibility implements Strategy
 {
 
     public function applyStrategy(array $puzzle): array

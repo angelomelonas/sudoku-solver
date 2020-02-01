@@ -1,6 +1,8 @@
 <?php
 
-class SubGroupExclusion implements Strategy
+namespace sudoku\solver\strategy;
+
+class TwoOutOfThree implements Strategy
 {
 
     public function applyStrategy(array $puzzle): array
