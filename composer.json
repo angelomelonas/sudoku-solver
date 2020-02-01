@@ -1,9 +1,11 @@
 {
   "name": "angelomelonas/sudoku-solver",
-  "description": "A simple Sudoku puzzle solver written in PHP .",
+  "description": "A simple Sudoku puzzle solver written in PHP.",
   "type": "project",
   "keywords": [
-    "sudoku"
+    "sudoku",
+    "solver",
+    "puzzle"
   ],
   "license": "MIT",
   "authors": [
@@ -14,7 +16,7 @@
     }
   ],
   "require": {
-    "php": "^7.3"
+    "php": "^7.2"
   },
   "require-dev": {
     "jakub-onderka/php-parallel-lint": "^1.0",
@@ -24,12 +26,12 @@
   },
   "autoload": {
     "psr-4": {
-      "AngeloMelonas\\SudokuSolver\\": "src/"
+      "sudoku\\solver\\": "src/"
     }
   },
   "autoload-dev": {
     "psr-4": {
-      "AngeloMelonas\\SudokuSolverTest\\": "tests/"
+      "sudoku\\solver\\test\\": "tests/"
     }
   },
   "minimum-stability": "stable",
