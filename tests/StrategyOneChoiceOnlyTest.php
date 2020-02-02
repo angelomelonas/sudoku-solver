@@ -14,7 +14,7 @@ class StrategyOneChoiceOnlyTest extends TestCase
 {
     /**
      */
-    public function singleRowTest()
+    public function testSingleRow()
     {
         $strategyInput = [
             [0, 3, 9, 1, 4, 8, 2, 5, 7],
@@ -44,9 +44,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function multipleRowTest(): void
+    public function testMultipleRow(): void
     {
         $strategyInput = [
             [0, 3, 9, 1, 4, 8, 2, 5, 7],
@@ -76,9 +75,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function singleColumnTest(): void
+    public function testSingleColumn(): void
     {
         $strategyInput = [
             [0, 3, 9, 1, 4, 8, 2, 5, 7],
@@ -108,9 +106,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function multipleColumnTest(): void
+    public function testMultipleColumn(): void
     {
         $strategyInput = [
             [6, 3, 9, 1, 4, 8, 2, 5, 7],
@@ -140,9 +137,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function singleRegionTest(): void
+    public function testSingleRegion(): void
     {
         $strategyInput = [
             [6, 3, 9, 0, 0, 8, 2, 5, 7],
@@ -172,9 +168,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function multipleRegionTest(): void
+    public function testMultipleRegion(): void
     {
         $strategyInput = [
             [6, 3, 9, 0, 0, 8, 2, 5, 7],
@@ -204,9 +199,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     }
 
     /**
-     * @test
      */
-    public function singleEmptyCellsTest(): void
+    public function testSingleEmptyCells(): void
     {
         $strategyInput = [
             [0, 3, 9, 1, 4, 8, 2, 5, 7],
@@ -261,8 +255,8 @@ class StrategyOneChoiceOnlyTest extends TestCase
     private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput)
     {
         $puzzle = new Puzzle($strategyInput);
-        $oneChoiceOnlyStrategy = new StrategyOneChoiceOnly($puzzle);
-        $solvedPuzzle = $oneChoiceOnlyStrategy->applyStrategy();
+        $strategyOneChoiceOnly = new StrategyOneChoiceOnly($puzzle);
+        $solvedPuzzle = $strategyOneChoiceOnly->applyStrategy();
 
         static::assertEquals($strategyExpectedOutput, $solvedPuzzle->getPuzzleArray());
     }

@@ -11,8 +11,6 @@ use sudoku\solver\common\object\Puzzle;
 class StrategyOneChoiceOnly extends Strategy
 {
     /**
-     * StrategyOneChoiceOnly constructor.
-     *
      * @param Puzzle $puzzle
      */
     public function __construct(Puzzle $puzzle)

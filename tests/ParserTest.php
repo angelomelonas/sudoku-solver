@@ -2,11 +2,11 @@
 
 namespace sudoku\solver\test;
 
+use Exception;
+use PHPUnit\Framework\TestCase;
 use sudoku\solver\common\exception\SudokuSolverException;
 use sudoku\solver\parser\exception\SudokuSolverExceptionParser;
 use sudoku\solver\parser\PuzzleParser;
-use Exception;
-use PHPUnit\Framework\TestCase;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
@@ -27,10 +27,9 @@ class ParserTest extends TestCase
     const ERROR_PUZZLE_ROW_INVALID = 'Line %s in puzzle or file is not a valid row.';
 
     /**
-     * @test
      * @throws Exception
      */
-    public function parserTest(): void
+    public function testParser(): void
     {
         $parserInput =
             "0, 0, 0, 1, 9, 0, 5, 8, 2
@@ -61,10 +60,9 @@ class ParserTest extends TestCase
     }
 
     /**
-     * @test
      * @throws SudokuSolverException
      */
-    public function parserWithFileTest(): void
+    public function testParserWithFile(): void
     {
         $parserExpectedOutput = [
             [0, 0, 0, 1, 9, 0, 5, 8, 2],
@@ -84,10 +82,9 @@ class ParserTest extends TestCase
     }
 
     /**
-     * @test
      * @throws SudokuSolverExceptionParser
      */
-    public function parserIncorrectPuzzleDimensionsExceptionTest(): void
+    public function testParserIncorrectPuzzleDimensionsException(): void
     {
         $parserInput =
             "0, 0, 0, 1, 9, 0, 5, 8, 2
@@ -107,10 +104,9 @@ class ParserTest extends TestCase
     }
 
     /**
-     * @test
      * @throws SudokuSolverExceptionParser
      */
-    public function parserNegativeNumberExceptionTest(): void
+    public function testParserNegativeNumberException(): void
     {
         $parserInput =
             "0, 0, 0, 1, 9, 0, 5, 8, -2
@@ -134,10 +130,9 @@ class ParserTest extends TestCase
     }
 
     /**
-     * @test
      * @throws SudokuSolverExceptionParser
      */
-    public function parserInvalidRowExceptionTest(): void
+    public function testParserInvalidRowException(): void
     {
         $parserInput =
             "0, 0, 0, 1, 9, 0, 5, 8, 2
