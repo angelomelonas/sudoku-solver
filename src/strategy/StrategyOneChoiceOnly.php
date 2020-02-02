@@ -25,15 +25,16 @@ class StrategyOneChoiceOnly extends Strategy
      */
     public function applyStrategy(): Puzzle
     {
-        // TODO: Check that there is only one zero in the group before trying to solve.
         for ($row = 0; $row < $this->puzzle->getLength(); $row++) {
             for ($column = 0; $column < $this->puzzle->getLength(); $column++) {
                 if ($this->puzzle->getSquareValue($row, $column) === self::UNSOLVED_SQUARE_VALUE) {
                     $this->solveGroup($this->puzzle->getRow($row), $row, $column);
+                }
+                if ($this->puzzle->getSquareValue($row, $column) === self::UNSOLVED_SQUARE_VALUE) {
                     $this->solveGroup($this->puzzle->getColumn($column), $row, $column);
+                }
+                if ($this->puzzle->getSquareValue($row, $column) === self::UNSOLVED_SQUARE_VALUE) {
                     $this->solveGroup($this->puzzle->getRegion($row, $column), $row, $column);
-                } else {
-                    // The square has been solved already.
                 }
             }
         }
