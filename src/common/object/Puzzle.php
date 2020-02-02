@@ -83,24 +83,24 @@ class Puzzle
     }
 
     /**
-     * @param int $row
-     * @param int $column
+     * @param int $rowIndex
+     * @param int $columnIndex
      * @param int $newValue
      */
-    public function setSquareValue(int $row, int $column, int $newValue)
+    public function setSquareValue(int $rowIndex, int $columnIndex, int $newValue)
     {
-        $this->puzzle[$row][$column] = $newValue;
+        $this->puzzle[$rowIndex][$columnIndex] = $newValue;
     }
 
     /**
-     * @param int $row
-     * @param int $column
+     * @param int $rowIndex
+     * @param int $columnIndex
      *
      * @return int
      */
-    public function getSquareValue(int $row, int $column): int
+    public function getSquareValue(int $rowIndex, int $columnIndex): int
     {
-        return $this->puzzle[$row][$column];
+        return $this->puzzle[$rowIndex][$columnIndex];
     }
 
     /**
