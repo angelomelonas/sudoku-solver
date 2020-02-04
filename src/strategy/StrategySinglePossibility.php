@@ -2,7 +2,7 @@
 
 namespace sudoku\solver\strategy;
 
-use sudoku\solver\common\object\Puzzle;
+use sudoku\solver\puzzle\code\Puzzle;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>

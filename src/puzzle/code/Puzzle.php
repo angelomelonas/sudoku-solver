@@ -1,5 +1,5 @@
 <?php
-namespace sudoku\solver\common\object;
+namespace sudoku\solver\puzzle\code;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>

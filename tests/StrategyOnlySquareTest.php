@@ -3,7 +3,7 @@
 namespace sudoku\solver\test;
 
 use PHPUnit\Framework\TestCase;
-use sudoku\solver\common\object\Puzzle;
+use sudoku\solver\puzzle\code\Puzzle;
 use sudoku\solver\strategy\StrategyOnlySquare;
 
 /**

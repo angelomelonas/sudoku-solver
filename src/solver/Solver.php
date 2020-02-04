@@ -2,7 +2,7 @@
 
 namespace sudoku\solver\solver;
 
-use sudoku\solver\common\object\Puzzle;
+use sudoku\solver\puzzle\code\Puzzle;
 use sudoku\solver\strategy\Strategy;
 use sudoku\solver\strategy\StrategyOneChoiceOnly;
 
