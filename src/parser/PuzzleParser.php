@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace sudoku\solver\parser;
 
+use Exception;
 use sudoku\solver\common\exception\SudokuSolverException;
 use sudoku\solver\common\exception\SudokuSolverExceptionFileSystem;
 use sudoku\solver\common\exception\SudokuSolverExceptionPuzzleNotFound;
 use sudoku\solver\common\object\FileContent;
 use sudoku\solver\common\object\FilePath;
-use sudoku\solver\common\object\Puzzle;
 use sudoku\solver\common\util\Settings;
 use sudoku\solver\parser\exception\SudokuSolverExceptionParser;
-use Exception;
+use sudoku\solver\puzzle\code\Puzzle;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
@@ -28,11 +28,27 @@ class PuzzleParser
     const ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS = '"%s" is an invalid cell value. The puzzle can only contain positive numbers.';
     const ERROR_PUZZLE_DIMENSIONS_INVALID = 'The puzzle dimensions have to be square.';
     const ERROR_PUZZLE_ROW_INVALID = 'Line %s in puzzle or file is not a valid row.';
+    const ERROR_PUZZLE_SOLUTION_INVALID = 'The puzzle solution on line %s is invalid: %s';
 
     /**
      * File content constants.
      */
     const FILE_CONTENT_NEWLINE = "\n";
+
+    /**
+     * Delimiter constants.
+     */
+    const DELIMITER_HASH = "#";
+    const DELIMITER_EMPTY = "";
+    const DELIMITER_COMMA = ",";
+    const DELIMITER_PERIOD = ".";
+    const DELIMITER_ZERO = "0";
+
+    /**
+     * Split-length constants.
+     */
+    const SPLIT_LENGTH_ONE = 1;
+    const SPLIT_LENGTH_EIGTEEN = 18;
 
     /**
      * @param string $puzzleString
@@ -58,6 +74,22 @@ class PuzzleParser
         $fileContent = static::getFileContentsFromFilePath($filePath);
 
         return static::parsePuzzle($fileContent->getFileContentString());
+    }
+
+    /**
+     * @param string $puzzleFilePath
+     *
+     * @return Puzzle[]
+     * @throws SudokuSolverException
+     * @throws SudokuSolverExceptionFileSystem
+     * @throws Exception
+     */
+    public static function parsePuzzleFromCsvFile(string $puzzleFilePath): array
+    {
+        $filePath = static::getFilePath(Settings::getRootPathString() . $puzzleFilePath);
+        $fileContent = static::getFileContentsFromFilePath($filePath);
+
+        return static::parsePuzzleFromCsvString($fileContent->getFileContentString());
     }
 
     /**
@@ -153,7 +185,7 @@ class PuzzleParser
             // Remove leading and trailing white space.
             $trimmed = rtrim(ltrim($line));
 
-            if (mb_substr($trimmed, 0, 1) != "#" && $trimmed != "") {
+            if (mb_substr($trimmed, 0, 1) != self::DELIMITER_HASH && $trimmed != self::DELIMITER_EMPTY) {
                 // If the line is not a comment starting with #, add each comma separated value as an array entry.
                 $row = explode(",", $trimmed);
 
@@ -174,6 +206,99 @@ class PuzzleParser
         }
 
         return static::createPuzzleFromArrayInt($tempPuzzle);
+    }
+
+    /**
+     * @param string $getFileContentString
+     *
+     * @return Puzzle[]
+     * @throws SudokuSolverExceptionParser
+     */
+    private static function parsePuzzleFromCsvString(string $getFileContentString): array
+    {
+        $allPuzzles = [];
+        $lineCount = 0;
+        $lines = explode(self::FILE_CONTENT_NEWLINE, $getFileContentString);
+
+        foreach ($lines as $line) {
+            $lineCount++;
+            $puzzleAndSolution = explode(self::DELIMITER_COMMA, $line);
+            if (isset($puzzleAndSolution[0]) && isset($puzzleAndSolution[1])) {
+                $puzzleString = static::getPuzzleString($puzzleAndSolution[0]);
+                $puzzleSolutionString = static::getPuzzleSolutionString($puzzleAndSolution[1]);
+
+                $puzzleStringWithNewlines = static::addPuzzleAllNewlineDelimiter($puzzleString);
+                $puzzleSolutionStringWithNewlines = static::addPuzzleAllNewlineDelimiter($puzzleSolutionString);
+
+                $puzzle = static::parsePuzzle($puzzleStringWithNewlines);
+                $puzzleSolution = static::parsePuzzle($puzzleSolutionStringWithNewlines);
+
+                if (static::isPuzzleSolutionValid($puzzleSolution, $lineCount)) {
+                    $allPuzzles[] = $puzzle;
+                    $allPuzzles[] = $puzzleSolution;
+                } else {
+                    // Puzzle solution is valid.
+                }
+            } else {
+                // Reached end of file.
+            }
+        }
+
+        return $allPuzzles;
+    }
+
+    /**
+     * @param Puzzle $puzzleSolution
+     *
+     * @param int $lineCount
+     *
+     * @return bool
+     * @throws SudokuSolverExceptionParser
+     */
+    private static function isPuzzleSolutionValid(Puzzle $puzzleSolution, int $lineCount)
+    {
+        if ($puzzleSolution->determineSolved()) {
+            return true;
+        } else {
+            throw new SudokuSolverExceptionParser(
+                vsprintf(self::ERROR_PUZZLE_SOLUTION_INVALID, [$lineCount, $puzzleSolution->toString()])
+            );
+        }
+    }
+
+    /**
+     * @param string $puzzle
+     *
+     * @return string
+     */
+    private static function getPuzzleString(string $puzzle): string
+    {
+        $stringWithZeroes = str_replace(self::DELIMITER_PERIOD, self::DELIMITER_ZERO, $puzzle);
+        $splitString = str_split($stringWithZeroes, self::SPLIT_LENGTH_ONE);
+
+        return implode(self::DELIMITER_COMMA, $splitString);
+    }
+
+    /**
+     * @param string $puzzleSolution
+     *
+     * @return string
+     */
+    private static function getPuzzleSolutionString(string $puzzleSolution): string
+    {
+        $splitString = str_split($puzzleSolution, self::SPLIT_LENGTH_ONE);
+
+        return implode(self::DELIMITER_COMMA, $splitString);
+    }
+
+    /**
+     * @param string $puzzle
+     *
+     * @return string
+     */
+    private static function addPuzzleAllNewlineDelimiter(string $puzzle): string
+    {
+        return implode(self::FILE_CONTENT_NEWLINE, str_split($puzzle, self::SPLIT_LENGTH_EIGTEEN));
     }
 
     /**
