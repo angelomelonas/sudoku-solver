@@ -150,17 +150,18 @@ class Puzzle
     }
 
     /**
-     * @param array $puzzle
      */
-    public function toString(array $puzzle): void
+    public function toString(): string
     {
         // TODO: Improve this toString function.
-        echo "\n";
-        foreach ($puzzle as $row) {
+        $puzzleFormattedString = "\n";
+        foreach ($this->puzzle as $row) {
             foreach ($row as $cell) {
-                echo $cell . " ";
+                $puzzleFormattedString .= $cell . " ";
             }
-            echo "\n";
+            $puzzleFormattedString .= "\n";
         }
+
+        return $puzzleFormattedString;
     }
 }
