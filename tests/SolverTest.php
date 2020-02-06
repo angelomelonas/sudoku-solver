@@ -78,7 +78,7 @@ class SolverTest extends TestCase
      */
     public function testBasicOne()
     {
-        $strategyInput = [
+        $puzzleInput = [
             [2, 6, 1, 4, 9, 5, 8, 7, 3],
             [9, 0, 8, 1, 7, 6, 0, 4, 5],
             [7, 0, 0, 8, 3, 2, 0, 0, 6],
@@ -90,7 +90,7 @@ class SolverTest extends TestCase
             [8, 7, 3, 2, 4, 9, 5, 6, 1],
         ];
 
-        $strategyExpectedOutput = [
+        $puzzleExpectedOutput = [
             [2, 6, 1, 4, 9, 5, 8, 7, 3],
             [9, 3, 8, 1, 7, 6, 2, 4, 5],
             [7, 4, 5, 8, 3, 2, 9, 1, 6],
@@ -101,6 +101,8 @@ class SolverTest extends TestCase
             [6, 9, 4, 5, 1, 8, 7, 3, 2],
             [8, 7, 3, 2, 4, 9, 5, 6, 1],
         ];
+
+        $this->assertSolverOutput($puzzleInput, $puzzleExpectedOutput);
     }
 
     /**
@@ -108,7 +110,7 @@ class SolverTest extends TestCase
      */
     public function testHardestPuzzleEver()
     {
-        $strategyInput = [
+        $puzzleInput = [
             [8, 0, 0, 0, 0, 0, 0, 0, 0],
             [0, 0, 3, 6, 0, 0, 0, 0, 0],
             [0, 7, 0, 0, 9, 0, 2, 0, 0],
@@ -120,7 +122,7 @@ class SolverTest extends TestCase
             [0, 9, 0, 0, 0, 0, 4, 0, 0],
         ];
 
-        $strategyExpectedOutput = [
+        $puzzleExpectedOutput = [
             [8, 1, 2, 7, 5, 3, 6, 4, 9],
             [9, 4, 3, 6, 8, 2, 1, 7, 5],
             [6, 7, 5, 4, 9, 1, 2, 8, 3],
@@ -132,7 +134,7 @@ class SolverTest extends TestCase
             [7, 9, 6, 3, 1, 8, 4, 5, 2],
         ];
 
-        // TODO: Run this test when all the strategies have been implemented.
+        $this->assertSolverOutput($puzzleInput, $puzzleExpectedOutput);
     }
 
 

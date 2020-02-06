@@ -12,17 +12,13 @@ class StrategyOneChoiceOnly extends Strategy
 {
     /**
      * @param Puzzle $puzzle
-     */
-    public function __construct(Puzzle $puzzle)
-    {
-        parent::__construct($puzzle);
-    }
-
-    /**
+     *
      * @return Puzzle
      */
-    public function applyStrategy(): Puzzle
+    public function applyStrategy(Puzzle $puzzle): Puzzle
     {
+        $this->puzzle = $puzzle;
+
         for ($rowIndex = 0; $rowIndex < $this->puzzle->getLength(); $rowIndex++) {
             for ($columnIndex = 0; $columnIndex < $this->puzzle->getLength(); $columnIndex++) {
                 if ($this->puzzle->getSquareValue($rowIndex, $columnIndex) === self::UNSOLVED_SQUARE_VALUE) {

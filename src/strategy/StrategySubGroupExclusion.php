@@ -2,14 +2,21 @@
 
 namespace sudoku\solver\strategy;
 
+use sudoku\solver\puzzle\code\Puzzle;
+
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
  * @since 20200201 Initial creation.
  */
-class StrategySubGroupExclusion implements Strategy
+class StrategySubGroupExclusion extends Strategy
 {
 
-    public function applyStrategy(array $puzzle): array
+    /**
+     * @param Puzzle $puzzle
+     *
+     * @return Puzzle
+     */
+    public function applyStrategy(Puzzle $puzzle): Puzzle
     {
         // TODO: Implement applyStrategy() method.
     }

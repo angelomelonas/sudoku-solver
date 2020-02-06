@@ -23,16 +23,16 @@ abstract class Strategy
 
     /**
      * Strategy constructor.
-     *
-     * @param Puzzle $puzzle
      */
-    public function __construct(Puzzle $puzzle)
+    public function __construct()
     {
-        $this->puzzle = $puzzle;
+        $this->puzzle = [];
     }
 
     /**
+     * @param Puzzle $puzzle
+     *
      * @return Puzzle
      */
-    abstract public function applyStrategy();
+    abstract public function applyStrategy(Puzzle $puzzle);
 }
