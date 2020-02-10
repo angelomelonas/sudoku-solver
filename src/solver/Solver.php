@@ -17,7 +17,8 @@ class Solver
      * Solver constants.
      */
     const SOLVER_ITERATIONS_MAX = 100;
-    const SOLVER_PUZZLE_INDEX_FIRST = 0;
+    const SOLVER_STRATEGY_INDEX_FIRST = 0;
+    const SOLVER_STRATEGY_RESET_FIRST = 0;
 
     /**
      * @var Puzzle
@@ -32,7 +33,12 @@ class Solver
     /**
      * @var int
      */
-    private $strategy_index;
+    private $strategy_index_count;
+
+    /**
+     * @var int
+     */
+    private $strategy_reset_count;
 
     /**
      * Solver constructor.
@@ -45,9 +51,10 @@ class Solver
         $this->all_strategy = [
             new StrategyOneChoiceOnly(),
             new StrategySinglePossibility(),
-            // Add strategies here.
+            // TODO: Add more strategies here.
         ];
-        $this->strategy_index = self::SOLVER_PUZZLE_INDEX_FIRST;
+        $this->strategy_index_count = self::SOLVER_STRATEGY_INDEX_FIRST;
+        $this->strategy_reset_count = self::SOLVER_STRATEGY_RESET_FIRST;
     }
 
     /**
@@ -55,18 +62,19 @@ class Solver
      */
     public function solvePuzzle(): Puzzle
     {
-        $strategy = $this->all_strategy[$this->strategy_index++];
+        $strategy = $this->all_strategy[$this->strategy_index_count++];
 
         for ($index = 0; $index < self::SOLVER_ITERATIONS_MAX; $index++) {
             // Apply a single strategy until it stops changing the puzzle.
             $currentPuzzle = $this->applyStrategy($strategy, $this->puzzle);
             if ($this->isPuzzleUnchanged($this->puzzle, $currentPuzzle)) {
-                // Check if the puzzle has been solved.
                 if ($currentPuzzle->determineSolved()) {
                     return $currentPuzzle;
                 } else {
                     $strategy = $this->getNextStrategy();
                 }
+            } else {
+                $this->resetStrategyResetCount();
             }
 
             $this->puzzle = $currentPuzzle;
@@ -81,21 +89,48 @@ class Solver
      */
     private function getNextStrategy(): Strategy
     {
-        if (isset($this->all_strategy[$this->strategy_index])) {
-            return $this->all_strategy[$this->strategy_index++];
+        if (isset($this->all_strategy[$this->strategy_index_count])) {
+            return $this->all_strategy[$this->strategy_index_count++];
         } else {
-            $this->resetStrategyIndex();
-
-            return $this->all_strategy[$this->strategy_index];
+            if ($this->strategy_reset_count == 0) {
+                return $this->getFirstStrategy();
+            } else {
+                // TODO: return Bruteforce strategy.
+                exit();
+            }
         }
     }
 
     /**
+     * @return Strategy
      */
-    private function resetStrategyIndex(): void
+    private function getFirstStrategy(): Strategy
     {
-        // TODO: Implement brute force strategy when all other strategies have been exhausted.
-        $this->strategy_index = self::SOLVER_PUZZLE_INDEX_FIRST;
+        $this->resetStrategyIndexCount();
+        $this->incrementStrategyResetCount();
+
+        return $this->all_strategy[$this->strategy_index_count];
+    }
+
+    /**
+     */
+    private function incrementStrategyResetCount()
+    {
+        $this->strategy_reset_count++;
+    }
+
+    /**
+     */
+    private function resetStrategyResetCount()
+    {
+        $this->strategy_reset_count = self::SOLVER_STRATEGY_RESET_FIRST;
+    }
+
+    /**
+     */
+    private function resetStrategyIndexCount()
+    {
+        $this->strategy_index_count = self::SOLVER_STRATEGY_INDEX_FIRST;
     }
 
     /**
@@ -104,8 +139,10 @@ class Solver
      *
      * @return Puzzle
      */
-    public function applyStrategy(Strategy $strategy, Puzzle $puzzle): Puzzle
-    {
+    public function applyStrategy(
+        Strategy $strategy,
+        Puzzle $puzzle
+    ): Puzzle {
         return $strategy->applyStrategy($puzzle);
     }
 
@@ -115,8 +152,10 @@ class Solver
      *
      * @return bool
      */
-    private function isPuzzleUnchanged(Puzzle $puzzle, Puzzle $currentPuzzle): bool
-    {
+    private function isPuzzleUnchanged(
+        Puzzle $puzzle,
+        Puzzle $currentPuzzle
+    ): bool {
         return $puzzle->getPuzzleArray() === $currentPuzzle->getPuzzleArray();
     }
 }

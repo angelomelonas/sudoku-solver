@@ -105,6 +105,36 @@ class SolverTest extends TestCase
         $this->assertSolverOutput($puzzleInput, $puzzleExpectedOutput);
     }
 
+    public function testMinimumPuzzle()
+    {
+        $puzzleInput = [
+            [0, 0, 0, 8, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 4, 3, 0],
+            [5, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 7, 0, 8, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 2, 0, 0, 3, 0, 0, 0, 0],
+            [6, 0, 0, 0, 0, 0, 0, 7, 5],
+            [0, 0, 3, 4, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 6, 0, 0],
+        ];
+
+        // TODO: Get solution.
+        $puzzleExpectedOutput = [
+            [0, 0, 0, 8, 0, 1, 0, 0, 0],
+            [0, 0, 0, 0, 0, 0, 4, 3, 0],
+            [5, 0, 0, 0, 0, 0, 0, 0, 0],
+            [0, 0, 0, 0, 7, 0, 8, 0, 0],
+            [0, 0, 0, 0, 0, 0, 1, 0, 0],
+            [0, 2, 0, 0, 3, 0, 0, 0, 0],
+            [6, 0, 0, 0, 0, 0, 0, 7, 5],
+            [0, 0, 3, 4, 0, 0, 0, 0, 0],
+            [0, 0, 0, 2, 0, 0, 6, 0, 0],
+        ];
+
+        $this->assertSolverOutput($puzzleInput, $puzzleExpectedOutput);
+    }
+
     /**
      * This is the hardest puzzle ever created. Apparently.
      */
