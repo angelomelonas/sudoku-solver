@@ -9,11 +9,12 @@ Run the following in the root of the projec to install sudoku-solver.
     composer install
 
 ## Terminology
-
-    Row         Horizontal M cells
-    Column      Vertical N cells
-    Region      An m x n subset of cells
-    Group       M/N number of cells in a row (horizontally or vertically) 
+    
+    Square      One of the m x n values on the puzzle board
+    Row         Horizontal M squares
+    Column      Vertical N squares
+    Region      An m x n subset of squares
+    Group       M/N number of squares in a row (horizontally or vertically) 
 
 ## Strategies for Solving Puzzles
 The strategies used by this solver are based on the strategies as described by [Sudoku Dragon](http://www.sudokudragon.com/sudokustrategy.htm).
@@ -42,3 +43,8 @@ Strategies should be repeatedly applied until the puzzle is solved.
 
 6. Brute Force
     * Try all options until a solution is found :)
+
+### Resources
+* https://www.educative.io/edpresso/how-to-check-if-a-sudoku-board-is-valid
+* https://puzzling.stackexchange.com/questions/158/how-many-minimal-clue-sudoku-puzzles-are-there
+* https://www.technologyreview.com/s/426554/mathematicians-solve-minimum-sudoku-problem/
