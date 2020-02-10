@@ -34,6 +34,7 @@ class Puzzle
      */
     public function __construct(array $puzzle)
     {
+        // TODO: Do validation here and not in Parser.
         $this->puzzle = $puzzle;
         $this->length = count($puzzle[0]);
         $this->allGroupNumber = range(1, $this->length);
@@ -41,6 +42,7 @@ class Puzzle
     }
 
     /**
+     * @Deprecated Use PuzzleLib
      * @param int $rowIndex
      *
      * @return int[]
@@ -51,6 +53,7 @@ class Puzzle
     }
 
     /**
+     * @Deprecated Use PuzzleLib
      * @param int $columnIndex
      *
      * @return array
@@ -61,6 +64,7 @@ class Puzzle
     }
 
     /**
+     * @Deprecated Use PuzzleLib
      * @param int $rowIndex
      * @param int $columnIndex
      *
@@ -136,6 +140,7 @@ class Puzzle
     }
 
     /**
+     * @Deprecated Use PuzzleLib
      * @return bool
      */
     public function determineSolved()
