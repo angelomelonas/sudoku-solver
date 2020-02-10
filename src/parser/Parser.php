@@ -13,22 +13,32 @@ use sudoku\solver\common\object\FilePath;
 use sudoku\solver\common\util\Settings;
 use sudoku\solver\parser\exception\SudokuSolverExceptionParser;
 use sudoku\solver\puzzle\code\Puzzle;
+use sudoku\solver\puzzle\lib\PuzzleLib;
 
 /**
  * @author Angelo Melonas <angelomelonas@gmail.com>
  * @since 20200201 Initial creation.
  */
-class PuzzleParser
+class Parser
 {
     /**
      * Error constants.
      */
     const ERROR_PUZZLE_NOT_FOUND = 'The puzzle was not found in "%s".';
     const ERROR_FAILED_FILE_GET_CONTENTS = 'Failed to get the contents of file "%s".';
-    const ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS = '"%s" is an invalid cell value. The puzzle can only contain positive numbers.';
+    const ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS = '"%s" is an invalid square value. ' .
+    'The puzzle can only contain positive numbers.';
     const ERROR_PUZZLE_DIMENSIONS_INVALID = 'The puzzle dimensions have to be square.';
+    const ERROR_PUZZLE_MINIMUM_NUMBER_OF_CLUES_INVALID = 'The puzzle has %s clues. ' .
+    'The minimum number of clues to be able to solve a given puzzle is %s.';
     const ERROR_PUZZLE_ROW_INVALID = 'Line %s in puzzle or file is not a valid row.';
     const ERROR_PUZZLE_SOLUTION_INVALID = 'The puzzle solution on line %s is invalid: %s';
+    const ERROR_PUZZLE_INVALID = 'A row, column or region of the puzzle is invalid.';
+
+    /**
+     * Puzzle parser constants.
+     */
+    const PUZZLE_PARSER_MINIUM_NUMBER_OF_CLUES = 17;
 
     /**
      * File content constants.
@@ -302,41 +312,45 @@ class PuzzleParser
     }
 
     /**
-     * @param int[][] $puzzle
+     * @param array $puzzleArray
      *
      * @return Puzzle
      * @throws SudokuSolverExceptionParser
      */
-    private static function createPuzzleFromArrayInt(array $puzzle): Puzzle
+    private static function createPuzzleFromArrayInt(array $puzzleArray): Puzzle
     {
+        $puzzle = new Puzzle($puzzleArray);
+
         static::assertPuzzleValid($puzzle);
 
-        return new Puzzle($puzzle);
+        return $puzzle;
     }
 
     /**
-     * @param int[][] $arrayPuzzle
+     * @param Puzzle $puzzle
      *
      * @throws SudokuSolverExceptionParser
      */
-    private static function assertPuzzleValid(array $arrayPuzzle)
+    private static function assertPuzzleValid(Puzzle $puzzle)
     {
-        static::assertArraySquare($arrayPuzzle);
-        static::assertArrayValuesValid($arrayPuzzle);
+        static::assertArraySquare($puzzle);
+        static::assertArrayAllClueValueValid($puzzle);
+        static::assertArrayContainsMinimumNumberOfClue($puzzle);
+        static::assertArrayAllClueValid($puzzle);
     }
 
     /**
-     * @param array $arrayPuzzle
+     * @param Puzzle $puzzle
      *
      * @return bool
      * @throws SudokuSolverExceptionParser
      */
-    private static function assertArraySquare(array $arrayPuzzle): bool
+    private static function assertArraySquare(Puzzle $puzzle): bool
     {
-        $numberOfValuesInRow = count($arrayPuzzle[0]);
-        $numberOfValuesInPuzzle = count($arrayPuzzle, COUNT_RECURSIVE) - $numberOfValuesInRow;
+        $puzzleArray = $puzzle->getPuzzleArray();
+        $numberOfClues = count($puzzleArray, COUNT_RECURSIVE) - count($puzzleArray);
 
-        if (sqrt($numberOfValuesInPuzzle) != count($arrayPuzzle[0])) {
+        if (sqrt($numberOfClues) != count($puzzleArray[0])) {
             throw new SudokuSolverExceptionParser(self::ERROR_PUZZLE_DIMENSIONS_INVALID);
         }
 
@@ -344,23 +358,85 @@ class PuzzleParser
     }
 
     /**
-     * @param array $arrayPuzzle
+     * @param Puzzle $puzzle
      *
      * @return bool
      * @throws SudokuSolverExceptionParser
      */
-    private static function assertArrayValuesValid(array $arrayPuzzle): bool
+    private static function assertArrayAllClueValueValid(Puzzle $puzzle): bool
     {
-        foreach ($arrayPuzzle as $row) {
-            foreach ($row as $cell) {
-                if ($cell < 0 || $cell > 9) {
+        $puzzleArray = $puzzle->getPuzzleArray();
+        foreach ($puzzleArray as $row) {
+            foreach ($row as $square) {
+                if ($square < 0 || $square > 9) {
                     throw new SudokuSolverExceptionParser(
-                        vsprintf(self::ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS, [$cell])
+                        vsprintf(self::ERROR_PUZZLE_CAN_ONLY_CONTAIN_POSITIVE_NUMBERS, [$square])
                     );
                 }
             }
         }
 
         return true;
+    }
+
+    /**
+     * @param Puzzle $puzzle
+     *
+     * @return bool
+     * @throws SudokuSolverExceptionParser
+     */
+    private static function assertArrayContainsMinimumNumberOfClue(Puzzle $puzzle): bool
+    {
+        $puzzleArray = $puzzle->getPuzzleArray();
+        $clueCount = static::countNumberOfCluesInPuzzle($puzzleArray);
+
+        if ($clueCount < self::PUZZLE_PARSER_MINIUM_NUMBER_OF_CLUES) {
+            throw new SudokuSolverExceptionParser(
+                vsprintf(
+                    self::ERROR_PUZZLE_MINIMUM_NUMBER_OF_CLUES_INVALID,
+                    [
+                        $clueCount,
+                        self::PUZZLE_PARSER_MINIUM_NUMBER_OF_CLUES
+                    ]
+                )
+            );
+        } else {
+            return true;
+        }
+    }
+
+    /**
+     * @param Puzzle $puzzle
+     *
+     * @return bool
+     * @throws SudokuSolverExceptionParser
+     */
+    private static function assertArrayAllClueValid(Puzzle $puzzle): bool
+    {
+        if (PuzzleLib::determineValid($puzzle)) {
+            return true;
+        } else {
+            throw new SudokuSolverExceptionParser(self::ERROR_PUZZLE_INVALID);
+        }
+    }
+
+    /**
+     * @param array $arrayPuzzle
+     *
+     * @return int
+     */
+    private static function countNumberOfCluesInPuzzle(array $arrayPuzzle): int
+    {
+        $clueCount = 0;
+
+        foreach ($arrayPuzzle as $row) {
+            foreach ($row as $square) {
+                if ($square !== 0) {
+                    $clueCount++;
+                }
+            }
+        }
+
+        return $clueCount;
     }
 }
