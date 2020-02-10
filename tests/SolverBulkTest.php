@@ -5,7 +5,7 @@ namespace sudoku\solver\test;
 use PHPUnit\Framework\TestCase;
 use sudoku\solver\common\exception\SudokuSolverException;
 use sudoku\solver\common\exception\SudokuSolverExceptionFileSystem;
-use sudoku\solver\parser\PuzzleParser;
+use sudoku\solver\parser\Parser;
 use sudoku\solver\puzzle\code\Puzzle;
 use sudoku\solver\solver\Solver;
 
@@ -33,7 +33,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleSimple()
     {
-        $this->solveAllTests(PuzzleParser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
     }
 
     /**
@@ -42,7 +42,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleEasy()
     {
-        $this->solveAllTests(PuzzleParser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
     }
 
     /**
@@ -51,7 +51,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleIntermediate()
     {
-        $this->solveAllTests(PuzzleParser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
     }
 
     /**
@@ -60,7 +60,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleExpert()
     {
-        $this->solveAllTests(PuzzleParser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
     }
 
     /**
