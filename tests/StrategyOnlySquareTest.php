@@ -50,8 +50,8 @@ class StrategyOnlySquareTest extends TestCase
     private function assertStrategyOutput(array $strategyInput, array $strategyExpectedOutput)
     {
         $puzzle = new Puzzle($strategyInput);
-        $strategyOnlySquare = new StrategyOnlySquare($puzzle);
-        $solvedPuzzle = $strategyOnlySquare->applyStrategy();
+        $strategyOnlySquare = new StrategyOnlySquare();
+        $solvedPuzzle = $strategyOnlySquare->applyStrategy($puzzle);
 
         static::assertEquals($strategyExpectedOutput, $solvedPuzzle->getPuzzleArray());
     }
