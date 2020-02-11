@@ -18,6 +18,7 @@ class SolverBulkTest extends TestCase
     /**
      * Puzzle filepath constants.
      */
+    const PATH_SIMPLE_PUZZLES = '/puzzles/simple.csv';
     const PATH_EASY_PUZZLES = '/puzzles/easy.csv';
     const PATH_INTERMEDIATE_PUZZLES = '/puzzles/intermediate.csv';
     const PATH_EXPERT_PUZZLES = '/puzzles/expert.csv';
@@ -33,7 +34,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleSimple()
     {
-        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_SIMPLE_PUZZLES));
     }
 
     /**
@@ -51,7 +52,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleIntermediate()
     {
-        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_INTERMEDIATE_PUZZLES));
     }
 
     /**
@@ -60,7 +61,7 @@ class SolverBulkTest extends TestCase
      */
     public function testAllPuzzleExpert()
     {
-        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EASY_PUZZLES));
+        $this->solveAllTests(Parser::parsePuzzleFromCsvFile(self::PATH_EXPERT_PUZZLES));
     }
 
     /**
