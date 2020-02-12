@@ -63,11 +63,32 @@ class PuzzleLib
     {
         $sum = 0;
 
-        foreach ($puzzle as $row) {
+        foreach ($puzzle->getPuzzleArray() as $row) {
             $sum += array_sum($row);
         }
 
         return $sum === $puzzle->getSolutionValue();
+    }
+
+    /**
+     * @param Puzzle $puzzle
+     * @param int $rowIndex
+     * @param int $columnIndex
+     * @param int $value
+     *
+     * @return bool
+     */
+    public static function determineCanSetValue(Puzzle $puzzle, int $rowIndex, int $columnIndex, int $value): bool
+    {
+        $row = static::getRow($puzzle, $rowIndex);
+        $column = static::getColumn($puzzle, $columnIndex);
+        $region = static::getRegion($puzzle, $rowIndex, $columnIndex);
+
+        if (in_array($value, $row) || in_array($value, $column) || in_array($value, $region)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     /**
