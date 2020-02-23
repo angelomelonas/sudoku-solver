@@ -2,7 +2,6 @@
 
 namespace sudoku\solver\test;
 
-use PHPUnit\Framework\TestCase;
 use sudoku\solver\common\exception\SudokuSolverException;
 use sudoku\solver\common\exception\SudokuSolverExceptionFileSystem;
 use sudoku\solver\parser\Parser;
@@ -13,7 +12,7 @@ use sudoku\solver\solver\Solver;
  * @author Angelo Melonas <angelomelonas@gmail.com>
  * @since 20200205 Initial creation.
  */
-class SolverBulkTest extends TestCase
+class SolverBulkTest extends TestBase
 {
     /**
      * Puzzle filepath constants.
@@ -67,7 +66,7 @@ class SolverBulkTest extends TestCase
     /**
      * @param array $allPuzzle
      */
-    private function solveAllTests(array $allPuzzle)
+    protected function solveAllTests(array $allPuzzle)
     {
         $numberOfPuzzle = count($allPuzzle) / 2;
 
@@ -87,16 +86,17 @@ class SolverBulkTest extends TestCase
      * @param int $numberOfPuzzle
      * @param int $numberPuzzle
      */
-    private function assertSolverOutput(
+    protected function assertSolverOutput(
         Puzzle $puzzleInput,
         Puzzle $puzzleExpectedOutput,
         int $numberOfPuzzle,
         int $numberPuzzle
     ) {
+        $this->printPuzzleProgress($puzzleInput, $numberPuzzle, $numberOfPuzzle);
+
         $solver = new Solver($puzzleInput);
         $solvedPuzzle = $solver->solvePuzzle();
 
-        print_r(vsprintf(self::PUZZLES_SOLVED, [($numberPuzzle / 2) + 1, $numberOfPuzzle]));
         static::assertEquals($puzzleExpectedOutput->getPuzzleArray(), $solvedPuzzle->getPuzzleArray());
     }
 }
