@@ -1,0 +1,103 @@
+# flyctl launch added from .gitignore
+# Cache and logs (Symfony2)
+app/cache/*
+app/logs/*
+!**/app/cache/.gitkeep
+!**/app/logs/.gitkeep
+
+# Email spool folder
+app/spool/*
+
+# Cache, session files and logs (Symfony3)
+var/cache/*
+var/logs/*
+var/sessions/*
+!**/var/cache/.gitkeep
+!**/var/logs/.gitkeep
+!**/var/sessions/.gitkeep
+
+# Logs (Symfony4)
+var/log/*
+!**/var/log/.gitkeep
+
+# Parameters
+app/config/parameters.yml
+app/config/parameters.ini
+
+# Managed by Composer
+app/bootstrap.php.cache
+var/bootstrap.php.cache
+bin/*
+!**/bin/console
+!**/bin/symfony_requirements
+vendor
+
+# Assets and user uploads
+web/bundles
+web/uploads
+
+# PHPUnit
+app/phpunit.xml
+phpunit.xml
+
+# Build data
+build
+
+# Composer PHAR
+composer.phar
+
+# Backup entities generated with doctrine:generate:entities command
+**/**/Entity/*~
+
+# Embedded web-server pid file
+.web-server-pid
+
+###> symfony/framework-bundle ###
+.env.local
+.env.local.php
+.env.*.local
+config/secrets/prod/prod.decrypt.private.php
+public/bundles
+var
+###< symfony/framework-bundle ###
+
+###> phpunit/phpunit ###
+**/.phpunit.result.cache
+###< phpunit/phpunit ###
+
+**/.idea
+
+# flyctl launch added from .idea/.gitignore
+# Default ignored files
+.idea/shelf
+.idea/workspace.xml
+# Editor-based HTTP Client requests
+.idea/httpRequests
+# Datasource local storage ignored files
+.idea/dataSources
+.idea/dataSources.local.xml
+
+# flyctl launch added from vendor/evenement/evenement/.gitignore
+vendor/evenement/evenement/**/composer.lock
+vendor/evenement/evenement/**/vendor
+
+# flyctl launch added from vendor/psr/container/.gitignore
+vendor/psr/container/**/composer.lock
+vendor/psr/container/**/composer.phar
+vendor/psr/container/vendor
+
+# flyctl launch added from vendor/psr/event-dispatcher/.gitignore
+vendor/psr/event-dispatcher/vendor
+vendor/psr/event-dispatcher/**/composer.lock
+
+# flyctl launch added from vendor/psr/http-factory/.gitignore
+vendor/psr/http-factory/**/composer.lock
+vendor/psr/http-factory/**/vendor
+
+# flyctl launch added from vendor/symfony/monolog-bundle/.gitignore
+vendor/symfony/monolog-bundle/**/vendor
+vendor/symfony/monolog-bundle/**/composer.phar
+vendor/symfony/monolog-bundle/**/composer.lock
+vendor/symfony/monolog-bundle/**/phpunit.xml
+vendor/symfony/monolog-bundle/**/.phpunit.result.cache
+fly.toml
